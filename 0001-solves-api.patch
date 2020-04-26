@@ -1,0 +1,55 @@
+From 77890fb132059e3fd8455666873a0d0363bb3ebc Mon Sep 17 00:00:00 2001
+From: root <root@ip-172-31-45-96.cn-northwest-1.compute.internal>
+Date: Sun, 26 Apr 2020 10:44:56 +0800
+Subject: [PATCH] solves api
+
+---
+ CTFd/api/v1/challenges.py | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/CTFd/api/v1/challenges.py b/CTFd/api/v1/challenges.py
+index ce7f09b..82ea281 100644
+--- a/CTFd/api/v1/challenges.py
++++ b/CTFd/api/v1/challenges.py
+@@ -1,5 +1,6 @@
+ from flask import request, abort, url_for
+ from flask_restplus import Namespace, Resource
++from sqlalchemy import func
+ from CTFd.models import (
+     db,
+     Challenges,
+@@ -153,7 +154,31 @@ class ChallengeTypes(Resource):
+             }
+         return {"success": True, "data": response}
+ 
++@challenges_namespace.route("/solves")
++class AllChallengeSolves(Resource):
++    @check_challenge_visibility
++    @check_score_visibility
++    @during_ctf_time_only
++    @require_verified_emails
++    def get(self):
++        Model = get_model()
+ 
++        response = {}
++        challenges = (
++            db.session.query(Solves.challenge_id, func.count(Solves.challenge_id))
++                .join(Model, Solves.account_id == Model.id)
++                .filter(
++                Model.banned == False,
++                Model.hidden == False
++            )
++                .group_by(Solves.challenge_id)
++                .all()
++        )
++
++        for challenge in challenges:
++            response[str(challenge[0])] = challenge[1]
++
++        return {"success": True, "data": response}
+ @challenges_namespace.route("/<challenge_id>")
+ @challenges_namespace.param("challenge_id", "A Challenge ID")
+ class Challenge(Resource):
+-- 
+2.23.1
+
