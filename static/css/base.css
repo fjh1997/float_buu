@@ -158,3 +158,24 @@ select.form-control {
   opacity: 0.5;
   cursor: not-allowed;
 }
+#license-police{
+	display:inline !important;
+}
+
+#license-police>div{
+	display:inline !important;
+}
+
+#license-police>div>a>p{
+	color: #6c757d !important;
+	font-size: 80% !important;
+	font-weight: 400 !important;
+	float:none !important;
+	display:inline !important;
+}
+
+#license-police>div>a>img{
+	display:inline !important;
+	float:none !important;
+}
+
