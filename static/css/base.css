@@ -3,6 +3,9 @@ body,
 .container {
   font-family: "Lato", "LatoOffline", sans-serif;
 }
+.sticky-offset {
+    top: 76px;
+}
 
 h1,
 h2 {
