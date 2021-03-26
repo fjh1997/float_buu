@@ -52,7 +52,7 @@ class AllChallengeSolves(Resource):
 git clone https://github.com/CTFd/CTFd.git
 cd CTFd/
 git reset 6c5c63d667a17aec159c8e26ea53dccfbc4d0fa3 --hard
-git appply 0001-solves-api.patch
+git apply 0001-solves-api.patch
 cd CTFd/themes
 git clone https://github.com/fjh1997/float_buu.git
 ```
